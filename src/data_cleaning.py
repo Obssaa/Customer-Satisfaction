@@ -37,7 +37,32 @@ class DataPreProcessStrategy(DataStrategy):
             raise e
 class DataDivisionStrategy(DataStrategy):
     """This class splits data into train test set"""
-    def handle_data(self,data:pd.DataFrame) -> Union(pd.DataFrame,pd.Series):
-        
+    def handle_data(self,data:pd.DataFrame) -> Union[pd.DataFrame,pd.Series]:
+        try:
+            X = data.drop(["review_score"], axis = 1)
+            y = data["review_score"]
+            X_train, X_test, y_train, y_test = train_test_split(X,y, test_size= 0.2, random_state=42, shuffle=True)
+            return X_train, X_test, y_train, y_test
+        except Exception as e:
+            logging.error("Error while splitting data{}".format(e))
+            raise e
 
+class DataCleaning():
+    """Class for processing and dividing the data"""
+    def __init__(self, data:pd.DataFrame, strategy:DataStrategy):
+        self.data = data
+        self.strategy = strategy
 
+    def handle_data(self) -> Union[pd.DataFrame,pd.Series]:
+        """Handle data"""
+        try:
+            self.strategy.handle_data(self.data)
+
+        except Exception as e:
+            logging.error("Error in handling data".format(e))
+            raise e
+
+# if __name__ == "__main__":
+#     data = pd.read_csv("data/olist_customers_dataset.csv")
+#     data_cleaning = DataCleaning(data=data, strategy=DataPreProcessStrategy)
+#     data_cleaning.handle_data()
