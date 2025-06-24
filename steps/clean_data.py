@@ -22,11 +22,16 @@ def clean_df(data:pd.DataFrame) -> Tuple[
         y_test: Testing Labels
     """
     try:
-        processed_data = DataCleaning(data=data, strategy=DataPreProcessStrategy).handle_data()
-
-        X_train, X_test, y_train, y_test = DataCleaning(data=processed_data, strategy=DataDivisionStrategy).handle_data()
-        logging.info("Data cleaning completed.")
-        return X_train, X_test, y_train, y_test
+          process_strategy = DataPreProcessStrategy ()
+          data_cleaning = DataCleaning (data, process_strategy)
+          processed_data= data_cleaning.handle_data()
+          divide_strategy =  DataDivisionStrategy()
+          data_cleaning = DataCleaning (processed_data, divide_strategy)
+          X_train, X_test, y_train, y_test = data_cleaning. handle_data ()
+          
+          logging.info("Data cleaning completed.")
+          return X_train, X_test, y_train, y_test
     
     except Exception as e:
         logging.error("Error in cleaning data".format(e))
+        raise e

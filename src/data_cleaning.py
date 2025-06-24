@@ -18,9 +18,9 @@ class DataPreProcessStrategy(DataStrategy):
             data = data.drop(
                 [
                     "order_approved_at",
-                    "order _delivered_carrier_date",
+                    "order_delivered_carrier_date",
                     "order_delivered_customer_date",
-                    "order_estimated _delivery_date",
+                    "order_estimated_delivery_date",
                     "order_purchase_timestamp",
                 ], axis = 1)
             data ["product_weight_g"].fillna(data["product_weight_g"].median(), inplace=True)
@@ -56,7 +56,7 @@ class DataCleaning():
     def handle_data(self) -> Union[pd.DataFrame,pd.Series]:
         """Handle data"""
         try:
-            self.strategy.handle_data(self.data)
+            return self.strategy.handle_data(self.data)
 
         except Exception as e:
             logging.error("Error in handling data".format(e))
