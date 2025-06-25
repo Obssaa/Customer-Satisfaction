@@ -29,7 +29,7 @@ def train_model(X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.DataFra
         if config.model_name == "LinearRegression":
             mlflow.sklearn.autolog()
             model = LinearRegressionModel ()
-            trained_model = model. train (X_train, y_train)
+            trained_model = model.train (X_train, y_train)
             return trained_model
         else:
             raise ValueError("Model {} not supported". format(config.model_name))
